@@ -41,4 +41,4 @@ rsa
 uritemplate
 urllib3
 werkzeug
-zipp==3.17.0
+zipp
