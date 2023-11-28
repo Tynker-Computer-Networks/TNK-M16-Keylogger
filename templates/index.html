@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Keylogger</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ '/static/css/style.css' }}" />
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Function to update content
+            function updateContent() {
+                $.ajax({
+                    url: '/getData', // Update this URL if needed
+                    type: 'GET',
+                    success: function(data) {
+                        console.log(data)
+
+                         // Get the container element
+                        var $container = $('#data-container');
+                        // Clear existing content
+                        $container.empty(); 
+
+                        // Iterate through the JSON object and create HTML elements
+                        $.each(data, function(key, value) {
+                            // Create a new div for each entry
+                            var $entryDiv = $('<div class="entry"></div>');
+
+                            // Create a title bar for the key
+                            var $titleBar = $('<div class="title-bar"></div>').text("IP Address: "+key);
+                            // Create a console window for the value
+                            var $consoleWindow = $('<div class="console-window"></div>').text(value);
+
+                            // Append the title bar and console window to the entry div
+                            $entryDiv.append($titleBar, $consoleWindow);
+                            // Append the div to the container
+                            $container.append($entryDiv);
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+
+            // Initial content update
+            updateContent();
+
+            // Set up periodic updates (adjust the interval as needed)
+            setInterval(updateContent, 4000); // Update every 5 seconds, for example
+        });
+    </script>
+</head>
+
+<body>
+    <div class="div">
+        <nav class="navbar navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Keylogger</a>
+            </div>
+        </nav>
+
+        <div class="row m-5 mt-3" id="data-container">
+           
+        </div>
+
+    </div>
+</body>
+
+</html>
